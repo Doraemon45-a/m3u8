@@ -1,0 +1,40 @@
+name: Convert MKV to MP4 and Upload to Google Drive
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  convert_and_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+        python3 -m pip install --upgrade pip
+        python3 -m pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+
+    - name: Create token.pickle
+      run: |
+        echo "${{ secrets.GDRIVE_TOKEN }}" | base64 --decode > token.pickle
+
+    - name: Download MKV file
+      run: |
+        curl -L -o video.mkv "https://tipistream.tipikuy.workers.dev/0:/movieb/Kuasa.Gelap.2024.1080p.NF.WEB-DL.DDP5.1.H.264-JasDon.mkv"
+
+    - name: List files for debugging
+      run: ls -lh
+
+    - name: Convert MKV to MP4
+      run: |
+        ffmpeg -i video.mkv -vf "crop=1920:818:0:140,scale=1920:1080,subtitles=subtitle.srt:force_style='Fontsize=18'" -r 24 -c:v libx264 -preset veryfast -crf 24 -c:a aac -b:a 160k -ac 2 -af "volume=2.5" -movflags +faststart video.mp4
+
+    - name: Upload to Google Drive
+      run: python3 upload_to_gdrive.py video.mp4
