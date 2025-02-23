@@ -27,7 +27,7 @@ jobs:
 
     - name: Download M3U8 and Convert to MP4
       run: |
-        URL_M3U8="https://hls2-eu.zcdn.stream/a314caef0a7d5a602b4f9498720a96ba/2022-02-27/video.m3u8?auth=cedf86bd14a57e6c5d8a696b77e02f29&expires=1740298967&type=edge&asn=139989&node=n9wq4LW-qTW-0GgFQr7eZakKeLHKo5Lzl9PIypqvG5GbvhmU1IpKACQXTPMJcE-xlqPybsJWyMoDqyinKt88hQ"  # Ganti dengan URL M3U8 yang valid atau pakai GitHub Secrets
+        URL_M3U8="https://hls2-eu.zcdn.stream/a314caef0a7d5a602b4f9498720a96ba/2022-02-27/video.m3u8?auth=20a5ff552876e2ff6477f5d0c1cc8cba&expires=1740300183&type=edge&asn=139989&node=-RJGtKa_vj2ksk9gZwFMRWmdbvDcsK1ghtonn5sHWSjwIck9cuxo8BEWaVfdDQ6i4ZM7_PKQPlVohqfnD5XWrw"
         OUTPUT_FILE="output.mp4"
         
         echo "Downloading video from $URL_M3U8..."
